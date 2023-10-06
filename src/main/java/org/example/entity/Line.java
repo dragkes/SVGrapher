@@ -6,12 +6,13 @@ import org.apache.commons.lang3.tuple.Pair;
 
 @Data
 @AllArgsConstructor
-public class Line {
-    private Pair<Float, Float> start;
-    private Pair<Float, Float> end;
+public class Line
+        implements TransformableEntity {
+    private Point start;
+    private Point end;
 
 
     public float getLength() {
-        return (float) Math.sqrt(Math.pow(end.getLeft() - start.getLeft(), 2) + Math.pow(end.getRight() - start.getRight(), 2));
+        return (float) Math.sqrt(Math.pow(end.getX() - start.getX(), 2) + Math.pow(end.getY() - start.getY(), 2));
     }
 }
