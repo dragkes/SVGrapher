@@ -11,6 +11,8 @@ import java.util.List;
 
 @Data
 public class SVGPathHandler implements PathHandler {
+    private boolean isFirst = true;
+    private SVGOMPoint init = new SVGOMPoint(0F, 0F);
     private SVGOMPoint currentOrigin = new SVGOMPoint(0F, 0F);
     private List<Line> lines = new LinkedList<>();
 
@@ -27,16 +29,24 @@ public class SVGPathHandler implements PathHandler {
     @Override
     public void movetoRel(float x, float y) throws ParseException {
         currentOrigin = new SVGOMPoint(currentOrigin.getX() + x, currentOrigin.getY() + y);
+        if (isFirst) {
+            init = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY());
+            isFirst = false;
+        }
     }
 
     @Override
     public void movetoAbs(float x, float y) throws ParseException {
         currentOrigin = new SVGOMPoint(x, y);
+        if (isFirst) {
+            init = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY());
+            isFirst = false;
+        }
     }
 
     @Override
     public void closePath() throws ParseException {
-
+        lines.add(new Line(currentOrigin, init));
     }
 
     @Override
@@ -44,6 +54,10 @@ public class SVGPathHandler implements PathHandler {
         SVGOMPoint newOrigin = new SVGOMPoint(currentOrigin.getX() + x, currentOrigin.getY() + y);
         lines.add(new Line(currentOrigin, newOrigin));
         currentOrigin = newOrigin;
+        if (isFirst) {
+            init = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY());
+            isFirst = false;
+        }
     }
 
     @Override
@@ -51,6 +65,10 @@ public class SVGPathHandler implements PathHandler {
         SVGOMPoint newOrigin = new SVGOMPoint(x, y);
         lines.add(new Line(currentOrigin, newOrigin));
         currentOrigin = newOrigin;
+        if (isFirst) {
+            init = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY());
+            isFirst = false;
+        }
     }
 
     @Override
@@ -58,6 +76,10 @@ public class SVGPathHandler implements PathHandler {
         SVGOMPoint newOrigin = new SVGOMPoint(currentOrigin.getX() + x, currentOrigin.getY());
         lines.add(new Line(currentOrigin, newOrigin));
         currentOrigin = newOrigin;
+        if (isFirst) {
+            init = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY());
+            isFirst = false;
+        }
     }
 
     @Override
@@ -65,6 +87,10 @@ public class SVGPathHandler implements PathHandler {
         SVGOMPoint newOrigin = new SVGOMPoint(x, currentOrigin.getY());
         lines.add(new Line(currentOrigin, newOrigin));
         currentOrigin = newOrigin;
+        if (isFirst) {
+            init = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY());
+            isFirst = false;
+        }
     }
 
     @Override
@@ -72,6 +98,10 @@ public class SVGPathHandler implements PathHandler {
         SVGOMPoint newOrigin = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY() + y);
         lines.add(new Line(currentOrigin, newOrigin));
         currentOrigin = newOrigin;
+        if (isFirst) {
+            init = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY());
+            isFirst = false;
+        }
     }
 
     @Override
@@ -79,6 +109,10 @@ public class SVGPathHandler implements PathHandler {
         SVGOMPoint newOrigin = new SVGOMPoint(currentOrigin.getX(), y);
         lines.add(new Line(currentOrigin, newOrigin));
         currentOrigin = newOrigin;
+        if (isFirst) {
+            init = new SVGOMPoint(currentOrigin.getX(), currentOrigin.getY());
+            isFirst = false;
+        }
     }
 
     @Override

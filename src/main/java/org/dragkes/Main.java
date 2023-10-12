@@ -30,8 +30,6 @@ public class Main {
                 Document svg = f.createDocument(null, sceneFileStream);
                 SVGDocument svgDocument = (SVGDocument) svg;
                 Element elSVG = svgDocument.getRootElement();
-                String width = elSVG.getAttribute("width");
-                String height = elSVG.getAttribute("height");
                 NodeList nodes = elSVG.getElementsByTagName("*");
                 Map<String, List<Node>> nodeMap = new HashMap<>();
                 for (int i = 0; i < nodes.getLength(); i++) {
@@ -49,7 +47,6 @@ public class Main {
                 new Test(list);
                 System.out.println(list.size());
                 var tspan = svgDocument.getElementById("tspan4624");
-
                 System.out.println(tspan);
             }
         } catch (IOException ex) {

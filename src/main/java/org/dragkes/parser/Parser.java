@@ -2,7 +2,7 @@ package org.dragkes.parser;
 
 import org.apache.batik.dom.svg.SVGOMPathElement;
 import org.apache.batik.dom.svg.SVGOMPoint;
-import org.apache.batik.dom.svg.SVGOMTSpanElement;
+import org.apache.batik.dom.svg.SVGOMTextElement;
 import org.apache.batik.parser.PathParser;
 import org.dragkes.entity.Line;
 import org.dragkes.entity.Text;
@@ -25,12 +25,12 @@ public class Parser {
         List<Text> texts = new ArrayList<>();
         for (int i = 0; i < nodes.getLength(); i++) {
             String name = nodes.item(i).getClass().getSimpleName();
-            if (name.equals("SVGOMTSpanElement") || name.equals("SVGOMPathElement")) {
+            if (name.equals("SVGOMTextElement") || name.equals("SVGOMPathElement")) {
                 result.add(nodes.item(i));
             }
         }
 
-        for(Node node : result) {
+        for (Node node : result) {
             Node parent = node.getParentNode();
             SVGMatrix transformMatrix = null;
             while (parent != null) {
@@ -41,7 +41,8 @@ public class Parser {
                         if (transformMatrix == null) {
                             transformMatrix = groupTransformMatrix;
                         } else {
-                            if (groupTransformMatrix != null) transformMatrix = groupTransformMatrix.multiply(transformMatrix);
+                            if (groupTransformMatrix != null)
+                                transformMatrix = groupTransformMatrix.multiply(transformMatrix);
                         }
                     }
                     parent = parent.getParentNode();
@@ -69,11 +70,11 @@ public class Parser {
                         lines.addAll(linesFromPath);
                     }
                 }
-                case "SVGOMTSpanElement" -> {
-                    SVGOMTSpanElement tspan = (SVGOMTSpanElement) node;
-                    String value = tspan.getFirstChild().getNodeValue();
-                    SVGOMPoint point = new SVGOMPoint(tspan.getX().getBaseVal().getItem(0).getValue(), tspan.getY().getBaseVal().getItem(0).getValue());
-                    Text text = null;
+                case "SVGOMTextElement" -> {
+                    SVGOMTextElement textElement = (SVGOMTextElement) node;
+                    String value = textElement.getTextContent();
+                    SVGOMPoint point = new SVGOMPoint(textElement.getX().getBaseVal().getItem(0).getValue(), textElement.getY().getBaseVal().getItem(0).getValue());
+                    Text text;
                     if (transformMatrix != null) {
                         text = new Text(value, point.matrixTransform(transformMatrix));
                     } else {
@@ -82,14 +83,6 @@ public class Parser {
                     texts.add(text);
                 }
             }
-
-//            if (transformMatrix != null) {
-//                point.matrixTransform(transformMatrix);
-//                System.out.println(point.getX() + " " + point.getY());
-//                System.out.println(transformMatrix);
-//            }
-
-            //}
         }
         return new ArrayList<>(List.of(lines, texts));
     }

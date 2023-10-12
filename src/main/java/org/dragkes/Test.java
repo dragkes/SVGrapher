@@ -1,6 +1,7 @@
 package org.dragkes;
 
 import org.dragkes.entity.Line;
+import org.dragkes.entity.Text;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,13 @@ public class Test extends JFrame {
         super("Test");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel myPanel = new LinePaintDemo(elements);
+        myPanel.setLayout(null);
+        for (Object obj : elements.get(1)) {
+            Text text = (Text) obj;
+            JLabel label = new JLabel(text.getText());
+            label.setBounds((int) text.getPosition().getX(), (int) text.getPosition().getY(), 10,10);
+            myPanel.add(label);
+        }
         getContentPane().add(myPanel);
         setSize(300, 300);
         setVisible(true);
@@ -18,13 +26,14 @@ public class Test extends JFrame {
 
     public static class LinePaintDemo extends JPanel {
         List<List> elements;
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-                for (Object l : elements.get(0)) {
-                    Line line = (Line) l;
-                    g.drawLine((int) Math.floor(line.getStart().getX()), (int) Math.floor(line.getStart().getY()), (int) Math.floor(line.getEnd().getX()), (int) Math.floor(line.getEnd().getY()));
-                }
+            for (Object l : elements.get(0)) {
+                Line line = (Line) l;
+                g.drawLine((int) Math.floor(line.getStart().getX()), (int) Math.floor(line.getStart().getY()), (int) Math.floor(line.getEnd().getX()), (int) Math.floor(line.getEnd().getY()));
+            }
         }
 
         public LinePaintDemo(List<List> elements) {
