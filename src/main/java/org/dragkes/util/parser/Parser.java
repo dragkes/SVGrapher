@@ -1,4 +1,4 @@
-package org.dragkes.parser;
+package org.dragkes.util.parser;
 
 import org.apache.batik.dom.svg.SVGOMPathElement;
 import org.apache.batik.dom.svg.SVGOMPoint;

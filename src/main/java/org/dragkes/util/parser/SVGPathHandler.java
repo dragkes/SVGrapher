@@ -1,4 +1,4 @@
-package org.dragkes.parser;
+package org.dragkes.util.parser;
 
 import lombok.Data;
 import org.apache.batik.dom.svg.SVGOMPoint;
